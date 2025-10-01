@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: YOUR_GH_USERNAME/grandma-reunion   # <-- change this
+  repo: fabicrzz/terrell-family-reunion   # <-- change this
   branch: main
   base_url: https://YOUR-OAUTH.vercel.app  # <-- set after Step 4
   auth_endpoint: /callback                 # <-- provider-specific; see Step 4
