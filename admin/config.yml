@@ -1,0 +1,47 @@
+backend:
+  name: github
+  repo: YOUR_GH_USERNAME/grandma-reunion   # <-- change this
+  branch: main
+  base_url: https://YOUR-OAUTH.vercel.app  # <-- set after Step 4
+  auth_endpoint: /callback                 # <-- provider-specific; see Step 4
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "years"
+    label: "Years"
+    label_singular: "Year"
+    folder: "_years"
+    create: true
+    slug: "{{year}}"
+    fields:
+      - { label: "Year", name: "year", widget: "number", value_type: "int", required: true }
+      - { label: "Dates", name: "dates", widget: "string" }
+      - { label: "City", name: "city", widget: "string" }
+      - { label: "State", name: "state", widget: "string" }
+      - { label: "Host Family", name: "host_family", widget: "string", required: false }
+      - { label: "Theme", name: "theme", widget: "string", required: false }
+      - { label: "Hero Image", name: "hero_image", widget: "image", required: false }
+      - { label: "RSVP URL", name: "rsvp_url", widget: "string", required: false }
+      - { label: "Photos Album URL", name: "photos_album_url", widget: "string", required: false }
+      - label: "Schedule"
+        name: "schedule"
+        widget: "list"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Start", name: "start", widget: "string", required: false }
+          - { label: "End", name: "end", widget: "string", required: false }
+          - { label: "Location", name: "location", widget: "string", required: false }
+          - { label: "Notes", name: "notes", widget: "text", required: false }
+      - label: "Lodging"
+        name: "lodging"
+        widget: "list"
+        fields:
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Link", name: "link", widget: "string", required: false }
+          - { label: "Distance", name: "distance", widget: "string", required: false }
+          - { label: "Price Range", name: "priceRange", widget: "string", required: false }
+          - { label: "Notes", name: "notes", widget: "text", required: false }
+      - { label: "Travel Tips", name: "travel", widget: "list", required: false }
+      - { label: "FAQ", name: "faq", widget: "list", required: false }
