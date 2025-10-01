@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{{ page.title | default: site.title }}</title>
+<style>
+  :root { --bg:#fff; --ink:#1f2937; --accent:#8e1220; }
+  body { font:16px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial; color:var(--ink); margin:0; background:var(--bg); }
+  header { padding:48px 20px; text-align:center; background:linear-gradient(120deg,#f7e6ea,#fff); }
+  h1 { margin:0 0 6px; font-size:36px; }
+  .btn { display:inline-block; padding:10px 16px; border-radius:10px; text-decoration:none; border:1px solid var(--accent); color:var(--accent); }
+  .container { max-width:960px; margin:32px auto; padding:0 20px; }
+  .cards { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+  .card { border:1px solid #eee; border-radius:16px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,.04);}
+  .hero { width:100%; border-radius:16px; }
+  footer { text-align:center; padding:40px; color:#6b7280; }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{ site.title }}</h1>
+  <p>{{ site.description }}</p>
+  <a class="btn" href="/admin/">Host Login</a>
+</header>
+
+<div class="container">
+  {% assign ordered = site.years | sort: "year" | reverse %}
+  {% assign current = ordered | first %}
+
+  {% if current %}
+    <h2>{{ current.year }} Reunion — {{ current.city }}, {{ current.state }}</h2>
+    {% if current.hero_image %}<img class="hero" src="{{ current.hero_image }}" alt="Reunion hero">{% endif %}
+    <p><strong>Dates:</strong> {{ current.dates }}{% if current.theme %} • <strong>Theme:</strong> {{ current.theme }}{% endif %}</p>
+    <p><a class="btn" href="{{ current.rsvp_url }}" target="_blank" rel="noopener">RSVP</a>
+       {% if current.photos_album_url %}&nbsp;&nbsp;<a class="btn" href="{{ current.photos_album_url }}" target="_blank" rel="noopener">Photo Album</a>{% endif %}
+    </p>
+
+    <h3>Schedule</h3>
+    <div class="cards">
+      {% for item in current.schedule %}
+        <div class="card">
+          <strong>{{ item.title }}</strong><br>
+          <small>{{ item.start }}{% if item.end %}–{{ item.end }}{% endif %}{% if item.location %} • {{ item.location }}{% endif %}</small>
+          {% if item.notes %}<p>{{ item.notes }}</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <h3>Lodging</h3>
+    <div class="cards">
+      {% for stay in current.lodging %}
+        <div class="card">
+          <strong>{{ stay.name }}</strong><br>
+          {% if stay.link %}<a href="{{ stay.link }}" target="_blank" rel="noopener">Website</a><br>{% endif %}
+          {% if stay.distance %}<small>{{ stay.distance }}</small><br>{% endif %}
+          {% if stay.priceRange %}<small>{{ stay.priceRange }}</small>{% endif %}
+          {% if stay.notes %}<p>{{ stay.notes }}</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if current.travel or current.faq %}
+      <h3>Travel</h3>
+      <ul>{% for t in current.travel %}<li>{{ t }}</li>{% endfor %}</ul>
+      <h3>FAQ</h3>
+      <ul>{% for q in current.faq %}<li>{{ q }}</li>{% endfor %}</ul>
+    {% endif %}
+
+    <h3>Past Reunions</h3>
+    <ul>
+      {% for y in ordered offset:1 %}
+        <li><a href="{{ y.url }}">{{ y.year }} — {{ y.city }}, {{ y.state }}</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No years yet. Add one in the <a href="/admin/">admin</a>.</p>
+  {% endif %}
+</div>
+
+<footer>© {{ "now" | date: "%Y" }} The Family</footer>
+</body>
+</html>
